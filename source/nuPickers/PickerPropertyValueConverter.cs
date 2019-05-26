@@ -1,14 +1,12 @@
-﻿namespace nuPickers
+﻿using System;
+
+namespace nuPickers
 {
     using nuPickers.PropertyEditors;
     using System.Linq;
-    using Umbraco.Core.Models;
     using Umbraco.Core.Models.PublishedContent;
     using Umbraco.Core.PropertyEditors;
-    using Umbraco.Web;
 
-    [PropertyValueType(typeof(Picker))]
-    [PropertyValueCache(PropertyCacheValue.All, PropertyCacheLevel.Content)]
     public class PickerPropertyValueConverter : PropertyValueConverterBase
     {
         /// <summary>
@@ -18,7 +16,7 @@
         /// <returns></returns>
         public override bool IsConverter(PublishedPropertyType publishedPropertyType)
         {
-            return PickerPropertyValueConverter.IsPicker(publishedPropertyType.PropertyEditorAlias);
+            return PickerPropertyValueConverter.IsPicker(publishedPropertyType.EditorAlias);
         }
 
         /// <summary>
@@ -28,7 +26,7 @@
         /// <returns></returns>
         public static bool IsPicker(string propertyEditorAlias)
         {
-            return new string[] { 
+            return new [] { 
                         PropertyEditorConstants.DotNetCheckBoxPickerAlias,
                         PropertyEditorConstants.DotNetDropDownPickerAlias,
                         PropertyEditorConstants.DotNetPagedListPickerAlias,
@@ -56,38 +54,42 @@
                         PropertyEditorConstants.SqlPagedListPickerAlias,
                         PropertyEditorConstants.SqlPrefetchListPickerAlias,
                         PropertyEditorConstants.SqlRadioButtonPickerAlias,
-                        PropertyEditorConstants.SqlTypeaheadListPickerAlias,
-                        PropertyEditorConstants.XmlCheckBoxPickerAlias,
-                        PropertyEditorConstants.XmlDropDownPickerAlias,
-                        PropertyEditorConstants.XmlPagedListPickerAlias,
-                        PropertyEditorConstants.XmlPrefetchListPickerAlias,
-                        PropertyEditorConstants.XmlRadioButtonPickerAlias,
-                        PropertyEditorConstants.XmlTypeaheadListPickerAlias
+                        PropertyEditorConstants.SqlTypeaheadListPickerAlias
                     }
                  .Contains(propertyEditorAlias);
         }
 
-        /// <summary>
-        /// WARNING: currently PropertyValueConverters are unaware of their context, as such this should only be used by the current page
-        /// https://our.umbraco.org/forum/developing-packages/85047-context-property-value-converters
-        /// </summary>
-        /// <param name="publishedPropertyType"></param>
-        /// <param name="source">expected as a string</param>
-        /// <param name="preview"></param>
-        /// <returns></returns>
-        public override object ConvertSourceToObject(PublishedPropertyType publishedPropertyType, object source, bool preview)
+        public override PropertyCacheLevel GetPropertyCacheLevel(PublishedPropertyType propertyType)
+        {
+            return PropertyCacheLevel.Element;
+        }
+
+        public override Type GetPropertyValueType(PublishedPropertyType propertyType)
+        {
+            return typeof(Picker);
+        }
+
+        public override object ConvertSourceToIntermediate(IPublishedElement owner, PublishedPropertyType propertyType, object source,
+            bool preview)
         {
             int contextId = -1;
             int parentId = -1;
             IPublishedContent assignedContentItem;
 
-            try
+            if (owner is IPublishedContent publishedContent)
             {
-                assignedContentItem = new UmbracoHelper(UmbracoContext.Current).AssignedContentItem;
+                assignedContentItem = publishedContent;
             }
-            catch
+            else
             {
-                assignedContentItem = null;
+                try
+                {
+                    assignedContentItem = Umbraco.Web.Composing.Current.UmbracoHelper.AssignedContentItem;
+                }
+                catch
+                {
+                    assignedContentItem = null;
+                }
             }
 
             if (assignedContentItem != null)
@@ -101,25 +103,17 @@
             }
 
             return new Picker(
-                        contextId, 
-                        parentId,
-                        publishedPropertyType.PropertyTypeAlias, 
-                        publishedPropertyType.DataTypeId, 
-                        publishedPropertyType.PropertyEditorAlias, 
-                        source);
+                contextId, 
+                parentId,
+                propertyType.Alias, 
+                propertyType.DataType.Id, 
+                propertyType.EditorAlias, source);
         }
 
-        /// <summary>
-        /// Override the default behavour which duck types (converting a string that looks like a number into a number)
-        /// to always return a string (or null)
-        /// </summary>
-        /// <param name="propertyType"></param>
-        /// <param name="source">expected as a string</param>
-        /// <param name="preview">flag to indicate if in preview mode</param>
-        /// <returns>source as a string, or null</returns>
-        public override object ConvertDataToSource(PublishedPropertyType propertyType, object source, bool preview)
+        public override object ConvertIntermediateToObject(IPublishedElement owner, PublishedPropertyType propertyType,
+            PropertyCacheLevel referenceCacheLevel, object inter, bool preview)
         {
-            return source as string;
+            return inter as string;
         }
     }
 }

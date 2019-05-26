@@ -59,7 +59,7 @@
             }
             catch (JsonException jsonException)
             {
-                LogHelper.Warn(typeof(JsonDataSource), jsonException.Message + " (Check JSON at Url: " + url + ")");
+                Umbraco.Web.Composing.Current.Logger.Warn(typeof(JsonDataSource), jsonException.Message + " (Check JSON at Url: " + url + ")");
             }
 
             if (jToken != null)
@@ -85,7 +85,7 @@
                     }
                     catch (JsonException jsonException)
                     {
-                        LogHelper.Warn(typeof(JsonDataSource), jsonException.Message + " (Check JSONPath: " + this.JsonPath + ")");
+                        Umbraco.Web.Composing.Current.Logger.Warn(typeof(JsonDataSource), jsonException.Message + " (Check JSONPath: " + this.JsonPath + ")");
                     }
 
                     if (jTokens != null)

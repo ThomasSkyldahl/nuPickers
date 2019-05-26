@@ -8,7 +8,6 @@
     using nuPickers.Shared.LuceneDataSource;
     using nuPickers.Shared.RelationDataSource;
     using nuPickers.Shared.SqlDataSource;
-    using nuPickers.Shared.XmlDataSource;
 
     internal static class DataSource
     {
@@ -58,14 +57,6 @@
                 case PropertyEditorConstants.SqlRadioButtonPickerAlias:
                 case PropertyEditorConstants.SqlTypeaheadListPickerAlias:
                     return JsonConvert.DeserializeObject<SqlDataSource>(dataSourceConfig);
-
-                case PropertyEditorConstants.XmlCheckBoxPickerAlias:
-                case PropertyEditorConstants.XmlDropDownPickerAlias:
-                case PropertyEditorConstants.XmlLabelsAlias:
-                case PropertyEditorConstants.XmlPrefetchListPickerAlias:
-                case PropertyEditorConstants.XmlRadioButtonPickerAlias:
-                case PropertyEditorConstants.XmlTypeaheadListPickerAlias:
-                    return JsonConvert.DeserializeObject<XmlDataSource>(dataSourceConfig);
             }
 
             return null;

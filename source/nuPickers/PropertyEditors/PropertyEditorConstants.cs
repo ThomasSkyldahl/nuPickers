@@ -44,13 +44,5 @@
         public const string SqlPrefetchListPickerAlias = "nuPickers.SqlPrefetchListPicker";
         public const string SqlRadioButtonPickerAlias = "nuPickers.SqlRadioButtonPicker";
         public const string SqlTypeaheadListPickerAlias = "nuPickers.SqlTypeaheadListPicker";
-
-        public const string XmlCheckBoxPickerAlias = "nuPickers.XmlCheckBoxPicker";
-        public const string XmlDropDownPickerAlias = "nuPickers.XmlDropDownPicker";
-        public const string XmlLabelsAlias = "nuPickers.XmlLabels";
-        public const string XmlPagedListPickerAlias = "nuPickers.XmlPagedListPicker";
-        public const string XmlPrefetchListPickerAlias = "nuPickers.XmlPrefetchListPicker";
-        public const string XmlRadioButtonPickerAlias = "nuPickers.XmlRadioButtonPicker";
-        public const string XmlTypeaheadListPickerAlias = "nuPickers.XmlTypeaheadListPicker";        
     }
 }

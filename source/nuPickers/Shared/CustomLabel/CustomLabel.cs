@@ -1,4 +1,7 @@
 ﻿
+using Umbraco.Core.Collections;
+using Umbraco.Core.Models;
+
 namespace nuPickers.Shared.CustomLabel
 {
     using nuPickers.Shared.Editor;
@@ -9,9 +12,9 @@ namespace nuPickers.Shared.CustomLabel
     using System.Text;
     using System.Web;
     using System.Web.UI;
-    using umbraco;
-    using umbraco.NodeFactory;
-    using umbraco.presentation.templateControls;
+    //using umbraco;
+    //using umbraco.NodeFactory;
+    //using umbraco.presentation.templateControls;
 
     internal class CustomLabel
     {
@@ -40,23 +43,23 @@ namespace nuPickers.Shared.CustomLabel
             this.PropertyAlias = propertyAlias;
 
             // the macro requires a published context to run in
-            Node currentNode = uQuery.GetNode(contextId);
-            if (currentNode != null)
-            {
-                // current page is published so use this as the macro context
-                HttpContext.Current.Items["pageID"] = contextId;
-                this.HasMacroContext = true;
-            }
-            else
-            {
-                 // fallback nd find first published page to use as host
-                 Node contextNode = uQuery.GetNodesByXPath(string.Concat("descendant::*[@parentID = ", uQuery.RootNodeId, "]")).FirstOrDefault();
-                 if (contextNode != null)
-                 {
-                     HttpContext.Current.Items["pageID"] = contextNode.Id;
-                     this.HasMacroContext = true;
-                 }
-            }
+            //TopoGraph.Node<,> currentNode = uQuery.GetNode(contextId);
+            //if (currentNode != null)
+            //{
+            //    // current page is published so use this as the macro context
+            //    HttpContext.Current.Items["pageID"] = contextId;
+            //    this.HasMacroContext = true;
+            //}
+            //else
+            //{
+            //     // fallback nd find first published page to use as host
+            //     TopoGraph.Node<,> contextNode = uQuery.GetNodesByXPath(string.Concat("descendant::*[@parentID = ", uQuery.RootNodeId, "]")).FirstOrDefault();
+            //     if (contextNode != null)
+            //     {
+            //         HttpContext.Current.Items["pageID"] = contextNode.Id;
+            //         this.HasMacroContext = true;
+            //     }
+            //}
 
         }
 
@@ -94,17 +97,17 @@ namespace nuPickers.Shared.CustomLabel
         {
             if (!string.IsNullOrWhiteSpace(this.MacroAlias) && this.HasMacroContext)
             {
-                Macro macro = new Macro() { Alias = this.MacroAlias };
+                Macro macro = new Macro() { Alias = this.MacroAlias, };
+                //macro.Properties.Add(new MacroProperty());
+                //macro.Properties.Add("contextId".ToLower(), this.ContextId);
+                //macro.MacroAttributes.Add("propertyAlias".ToLower(), this.PropertyAlias);
 
-                macro.MacroAttributes.Add("contextId".ToLower(), this.ContextId);
-                macro.MacroAttributes.Add("propertyAlias".ToLower(), this.PropertyAlias);
+                //macro.MacroAttributes.Add("key", key);
+                //macro.MacroAttributes.Add("label", label);
 
-                macro.MacroAttributes.Add("key", key);
-                macro.MacroAttributes.Add("label", label);
-
-                macro.MacroAttributes.Add("keys", keys);
-                macro.MacroAttributes.Add("counter", counter);
-                macro.MacroAttributes.Add("total", total);
+                //macro.MacroAttributes.Add("keys", keys);
+                //macro.MacroAttributes.Add("counter", counter);
+                //macro.MacroAttributes.Add("total", total);
 
                 label = this.RenderToString(macro);
             }
@@ -122,7 +125,7 @@ namespace nuPickers.Shared.CustomLabel
             using (StringWriter stringWriter = new StringWriter(stringBuilder))
             using (HtmlTextWriter htmlTextWriter = new HtmlTextWriter(stringWriter))
             {
-                macro.RenderControl(htmlTextWriter);
+                //macro.RenderControl(htmlTextWriter);
             }
 
             return stringBuilder.ToString();

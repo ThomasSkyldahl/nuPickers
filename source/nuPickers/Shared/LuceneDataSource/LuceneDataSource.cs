@@ -1,9 +1,10 @@
-﻿namespace nuPickers.Shared.LuceneDataSource
+﻿using Examine.Search;
+
+namespace nuPickers.Shared.LuceneDataSource
 {
     using DataSource;
     using Examine;
     using Examine.Providers;
-    using Examine.SearchCriteria;
     using nuPickers.Shared.Editor;
     using Paging;
     using System;
@@ -45,20 +46,17 @@
         {
             List<EditorDataItem> editorDataItems = new List<EditorDataItem>();
 
-            BaseSearchProvider searchProvider = ExamineManager.Instance.SearchProviderCollection[this.ExamineSearcher];
-
-            if (searchProvider != null)
+            if (ExamineManager.Instance.TryGetSearcher(this.ExamineSearcher, out var searchProvider))
             {
-                ISearchCriteria searchCriteria = searchProvider.CreateSearchCriteria().RawQuery(this.RawQuery);
-                ISearchResults searchResults = searchProvider.Search(searchCriteria);
+                ISearchResults searchResults = searchProvider.CreateQuery().NativeQuery(RawQuery).Execute();
 
                 foreach (SearchResult searchResult in searchResults)
                 {
                     editorDataItems.Add(
                         new EditorDataItem() 
                             { 
-                                Key = searchResult.Fields.ContainsKey(this.KeyField) ? searchResult.Fields[this.KeyField] : null,
-                                Label = searchResult.Fields.ContainsKey(this.LabelField) ? searchResult.Fields[this.LabelField] : null
+                                Key = searchResult.Values.ContainsKey(KeyField) ? searchResult.Values[KeyField] : null,
+                                Label = searchResult.Values.ContainsKey(LabelField) ? searchResult.Values[LabelField] : null
                             });
                 }
             }

@@ -27,7 +27,7 @@
             }
             catch (Exception exception)
             {
-                LogHelper.Warn(typeof(EmbeddedResourceVirtualFileWriter), exception.Message);
+                Umbraco.Web.Composing.Current.Logger.Warn(typeof(EmbeddedResourceVirtualFileWriter), exception.Message);
 
                 return false;
             }

@@ -34,7 +34,7 @@
 
         private IEnumerable<EditorDataItem> GetEditorDataItems(int currentId, int parentId)
         {
-            var relationService = ApplicationContext.Current.Services.RelationService;
+            var relationService = Umbraco.Web.Composing.Current.Services.RelationService;
 
             return relationService.GetEntitiesFromRelations(
                                                 relationService.GetByRelationTypeAlias(this.RelationType)

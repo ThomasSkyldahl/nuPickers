@@ -136,7 +136,7 @@
                 }
                 else
                 {
-                    LogHelper.Warn(typeof(DotNetDataSource), "Unexpected PropertyType, " + propertyInfo.Name + " is not a string");
+                    Umbraco.Web.Composing.Current.Logger.Warn(typeof(DotNetDataSource), "Unexpected PropertyType, " + propertyInfo.Name + " is not a string");
                 }
             }
         }

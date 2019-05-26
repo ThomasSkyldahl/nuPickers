@@ -1,4 +1,6 @@
-﻿namespace nuPickers.PropertyEditors.DotNetCheckBoxPicker
+﻿using System.Collections.Generic;
+
+namespace nuPickers.PropertyEditors.DotNetCheckBoxPicker
 {
     using ClientDependency.Core;
     using nuPickers.EmbeddedResource;
@@ -7,7 +9,7 @@
     using Umbraco.Web.PropertyEditors;
     
     // EDITOR UI
-    [PropertyEditor(PropertyEditorConstants.DotNetCheckBoxPickerAlias, "nuPickers: DotNet CheckBox Picker", EmbeddedResource.ROOT_URL + "CheckBoxPicker/CheckBoxPickerEditor.html", ValueType = "TEXT")]
+    [DataEditor(PropertyEditorConstants.DotNetCheckBoxPickerAlias, "nuPickers: DotNet CheckBox Picker", EmbeddedResource.ROOT_URL + "CheckBoxPicker/CheckBoxPickerEditor.html", ValueType = "TEXT")]
     [PropertyEditorAsset(ClientDependencyType.Css, EmbeddedResource.ROOT_URL + "CheckBoxPicker/CheckBoxPickerEditor.css" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Css, EmbeddedResource.ROOT_URL + "LayoutDirection/LayoutDirection.css" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "CheckBoxPicker/CheckBoxPickerEditorController.js" + EmbeddedResource.FILE_EXTENSION)]
@@ -23,11 +25,7 @@
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "DotNetDataSource/DotNetDataSourceConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "CustomLabel/CustomLabelConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "SaveFormat/SaveFormatConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
-    public class DotNetCheckBoxPickerPropertyEditor : BasePropertyEditor
+    public class DotNetCheckBoxPickerPropertyEditor : ConfigurationEditor<DotNetCheckBoxPickerPreValueEditor>
     {
-        protected override PreValueEditor CreatePreValueEditor()
-        {
-            return new DotNetCheckBoxPickerPreValueEditor();
-        }
     }
 }

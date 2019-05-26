@@ -1,13 +1,13 @@
-﻿namespace nuPickers.Shared.SqlDataSource
+﻿using NPoco;
+
+namespace nuPickers.Shared.SqlDataSource
 {
     using DataSource;
     using nuPickers.Shared.Editor;
     using Paging;
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text.RegularExpressions;
-    using Umbraco.Core.Persistence;
 
     public class SqlDataSource : IDataSource
     {
@@ -17,7 +17,7 @@
 
         public string ConnectionString { get; set; }
 
-        bool IDataSource.HandledTypeahead { get { return this.handledTypeahead; } }
+        bool IDataSource.HandledTypeahead => this.handledTypeahead;
 
         IEnumerable<EditorDataItem> IDataSource.GetEditorDataItems(int currentId, int parentId, string typeahead)
         {

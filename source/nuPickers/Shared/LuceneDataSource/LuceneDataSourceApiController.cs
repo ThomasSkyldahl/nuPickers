@@ -4,14 +4,13 @@
     using System.Linq;
     using Umbraco.Web.Editors;
     using Umbraco.Web.Mvc;
-    using UmbracoExamine;
 
     [PluginController("nuPickers")]
     public class LuceneDataSourceApiController : UmbracoAuthorizedJsonController
     {
         public IEnumerable<object> GetExamineSearchers()
         {
-            return Examine.ExamineManager.Instance.SearchProviderCollection.OfType<UmbracoExamineSearcher>().Select(x => x.Name);            
+            return Examine.ExamineManager.Instance.RegisteredSearchers.Select(x => x.Name);            
         }
     }
 }

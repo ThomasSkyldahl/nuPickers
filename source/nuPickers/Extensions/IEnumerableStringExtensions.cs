@@ -1,8 +1,9 @@
-﻿namespace nuPickers.Extensions
+﻿using Umbraco.Core.Models.PublishedContent;
+
+namespace nuPickers.Extensions
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Umbraco.Core.Models;
     using Umbraco.Web;
 
     internal static class IEnumerableStringExtensions
@@ -15,7 +16,7 @@
         /// <returns>a collection (populated, or empty)</returns>
         internal static IEnumerable<IPublishedContent> AsPublishedContent(this IEnumerable<string> keys)
         {
-            UmbracoHelper umbracoHelper = new UmbracoHelper(UmbracoContext.Current);
+            var umbracoHelper = Umbraco.Web.Composing.Current.UmbracoHelper;
 
             return keys
                     .Select(x => umbracoHelper.GetPublishedContent(x))

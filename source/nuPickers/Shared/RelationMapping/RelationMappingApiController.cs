@@ -1,4 +1,6 @@
-﻿namespace nuPickers.Shared.RelationMapping
+﻿using Umbraco.Core.Services;
+
+namespace nuPickers.Shared.RelationMapping
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -9,10 +11,17 @@
     [PluginController("nuPickers")]
     public class RelationMappingApiController : UmbracoAuthorizedJsonController
     {
+        private readonly IRelationService _relationService;
+
+        public RelationMappingApiController(IRelationService relationService)
+        {
+            _relationService = relationService;
+        }
+
         [HttpGet]
         public IEnumerable<object> GetRelationTypes()
         {
-            return ApplicationContext.Services.RelationService.GetAllRelationTypes()
+            return _relationService.GetAllRelationTypes()
                         .OrderBy(x => x.Name)
                         .Select(x => new
                         {

@@ -1,4 +1,6 @@
-﻿namespace nuPickers
+﻿using Umbraco.Core.Models.PublishedContent;
+
+namespace nuPickers
 {
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
@@ -39,7 +41,7 @@
         {
             bool success = false;
 
-            var publishedContent = new UmbracoHelper(UmbracoContext.Current).GetPublishedContent(contextId);
+            var publishedContent = Umbraco.Web.Composing.Current.UmbracoHelper.GetPublishedContent(contextId);
 
             if (usePublishedValue && publishedContent != null)
             {                
@@ -47,45 +49,43 @@
 
                 if (property != null)
                 {
-                    var propertyType = publishedContent.ContentType.PropertyTypes.Single(x => x.PropertyTypeAlias == property.PropertyTypeAlias);
+                    var propertyType = property.PropertyType;
 
                     this.ContextId = publishedContent.Id;
-                    this.ParentId = (publishedContent.Parent != null) ? publishedContent.Parent.Id : -1;
+                    this.ParentId = publishedContent.Parent?.Id ?? -1;
                     this.PropertyAlias = propertyAlias;
-                    this.DataTypeId = propertyType.DataTypeId;
-                    this.PropertyEditorAlias = propertyType.PropertyEditorAlias;
-                    this.SavedValue = property.Value;
+                    this.DataTypeId = propertyType.DataType.Id;
+                    this.PropertyEditorAlias = propertyType.EditorAlias;
+                    this.SavedValue = property.Value();
 
                     success = true;
                 }
             }
             else // use unpublished data
             {
-                var content = ApplicationContext.Current.Services.ContentService.GetById(contextId);
+                var content = Umbraco.Web.Composing.Current.Services.ContentService.GetById(contextId);
 
-                if (content != null)
+                var property = content?.Properties.SingleOrDefault(x => x.Alias == propertyAlias);
+
+                if (property != null)
                 {
-                    var property = content.Properties.SingleOrDefault(x => x.Alias == propertyAlias);
+                    var propertyType = content.Properties.Single(x => x.Alias == property.Alias).PropertyType;
 
-                    if (property != null)
-                    {
-                        var propertyType = content.PropertyTypes.Single(x => x.Alias == property.Alias);
+                    this.ContextId = content.Id;
+                    this.ParentId = content.ParentId;
+                    this.PropertyAlias = propertyAlias;
+                    this.DataTypeId = propertyType.DataTypeId;
+                    this.PropertyEditorAlias = propertyType.PropertyEditorAlias;
+                    this.SavedValue = content.GetValue(PropertyAlias);
 
-                        this.ContextId = content.Id;
-                        this.ParentId = content.ParentId;
-                        this.PropertyAlias = propertyAlias;
-                        this.DataTypeId = propertyType.DataTypeDefinitionId;
-                        this.PropertyEditorAlias = propertyType.PropertyEditorAlias;
-                        this.SavedValue = content.GetValue(PropertyAlias);
-
-                        success = true;
-                    }
+                    success = true;
                 }
             }
 
             if (!success)
             {
-                throw new Exception(string.Format("Unable to create Picker object for ContextId: {0}, PropertyAlias: {1}", contextId.ToString(), propertyAlias));
+                throw new Exception(
+                    $"Unable to create Picker object for ContextId: {contextId.ToString()}, PropertyAlias: {propertyAlias}");
             }
         }
 
@@ -127,7 +127,7 @@
             {
                 if (this.pickedKeys == null)
                 {
-                    if (this.GetDataTypePreValue("saveFormat").Value == "relationsOnly")
+                    if (GetDataTypePreValue("saveFormat")?.ToString() == "relationsOnly")
                     {
                         // attempt to find relations data in memory cache
                         this.pickedKeys = Cache.Instance.GetSet(CacheConstants.PickedKeysPrefix + this.ContextId.ToString() + "_" + this.PropertyAlias, () =>
@@ -176,11 +176,11 @@
             get
             {
                 // not all pickers support relation mapping, so null check required
-                PreValue relationMappingPreValue = this.GetDataTypePreValue("relationMapping");
-                if (relationMappingPreValue != null && !string.IsNullOrWhiteSpace(relationMappingPreValue.Value))
+                object relationMappingPreValue = this.GetDataTypePreValue("relationMapping");
+                if (relationMappingPreValue != null && !string.IsNullOrWhiteSpace(relationMappingPreValue.ToString()))
                 {
                     // parse the json config to get a relationType alias
-                    return JObject.Parse(relationMappingPreValue.Value).GetValue("relationTypeAlias").ToString();
+                    return JObject.Parse(relationMappingPreValue.ToString()).GetValue("relationTypeAlias").ToString();
                 }
 
                 return null;
@@ -216,18 +216,15 @@
         /// <summary>
         /// Property accessor to ensure the query to populate the data-type configruation options is only done once per server
         /// </summary>
-        private IDictionary<string, PreValue> DataTypePreValues
+        private IDictionary<string, object> DataTypePreValues
         {
             get
             {
                 return Cache.Instance.GetSet(CacheConstants.DataTypePreValuesPrefix + this.DataTypeId, () =>
                 {
-                    return  ApplicationContext
-                                .Current
+                    return  Umbraco.Web.Composing.Current
                                 .Services
-                                .DataTypeService
-                                .GetPreValuesCollectionByDataTypeId(this.DataTypeId)
-                                .PreValuesAsDictionary;
+                                .DataTypeService.GetDataType(this.DataTypeId).Editor.GetConfigurationEditor().DefaultConfiguration;
                 });
             }
         }
@@ -240,7 +237,7 @@
         /// Get all the prevalues for this picker 
         /// </summary>
         /// <returns>collection of all <see cref="PreValue"/> for this datatype</returns>
-        public IDictionary<string, PreValue> GetDataTypePreValues()
+        public IDictionary<string, object> GetDataTypePreValues()
         {
             return this.DataTypePreValues;
         }
@@ -250,7 +247,7 @@
         /// </summary>
         /// <param name="key"></param>
         /// <returns>the <see cref="PreValue"/> if found, or null</returns>
-        public PreValue GetDataTypePreValue(string key)
+        public object GetDataTypePreValue(string key)
         {
             return this.DataTypePreValues.SingleOrDefault(x => string.Equals(x.Key, key, StringComparison.InvariantCultureIgnoreCase)).Value;
         }
@@ -268,8 +265,8 @@
                             this.ContextId,
                             this.ParentId,
                             this.PropertyAlias,
-                            DataSource.GetDataSource(this.PropertyEditorAlias, this.GetDataTypePreValue("dataSource").Value),
-                            this.GetDataTypePreValue("customLabel").Value,
+                            DataSource.GetDataSource(this.PropertyEditorAlias, this.GetDataTypePreValue("dataSource")?.ToString()),
+                            this.GetDataTypePreValue("customLabel")?.ToString(),
                             typeahead);
         }
 
@@ -280,16 +277,14 @@
         /// <returns></returns>
         public IEnumerable<EditorDataItem> GetPickedEditorDataItems()
         {
-            IEnumerable<EditorDataItem> editorDataItems;
-
-            if (!SaveFormat.TryGetDataEditorItems(this.SavedValue.ToString(), out editorDataItems))
+            if (!SaveFormat.TryGetDataEditorItems(this.SavedValue.ToString(), out var editorDataItems))
             {
                 editorDataItems = Editor.GetEditorDataItems(
                                     this.ContextId,
                                     this.ParentId,
                                     this.PropertyAlias,
-                                    DataSource.GetDataSource(this.PropertyEditorAlias, this.GetDataTypePreValue("dataSource").Value),
-                                    this.GetDataTypePreValue("customLabel").Value,
+                                    DataSource.GetDataSource(this.PropertyEditorAlias, this.GetDataTypePreValue("dataSource")?.ToString()),
+                                    this.GetDataTypePreValue("customLabel")?.ToString(),
                                     this.PickedKeys.ToArray());
             }
 
@@ -304,16 +299,6 @@
         public IEnumerable<IPublishedContent> AsPublishedContent()
         {
             return this.PickedKeys.AsPublishedContent();
-        }
-
-        /// <summary>
-        /// Get all picked items, objects may be typed Content, Media or Member (but all returned as dynamic) 
-        /// </summary>
-        /// <returns></returns>
-        //[Obsolete("[v2.0.0]")]
-        public IEnumerable<dynamic> AsDynamicPublishedContent()
-        {
-            return this.AsPublishedContent().Select(x => x.AsDynamic());
         }
 
         /// <summary>
@@ -355,11 +340,11 @@
         public IEnumerable<Enum> AsEnums()
         {
             List<Enum> enums = new List<Enum>();
-            PreValue dataSourceJson = this.GetDataTypePreValue("dataSource");
+            object dataSourceJson = this.GetDataTypePreValue("dataSource");
 
             if (dataSourceJson != null)
             {
-                EnumDataSource enumDataSouce = JsonConvert.DeserializeObject<EnumDataSource>(dataSourceJson.Value);
+                EnumDataSource enumDataSouce = JsonConvert.DeserializeObject<EnumDataSource>(dataSourceJson.ToString());
 
                 Type enumType = Helper.GetAssembly(enumDataSouce.AssemblyName).GetType(enumDataSouce.EnumName);
 

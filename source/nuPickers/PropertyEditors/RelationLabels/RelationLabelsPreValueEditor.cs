@@ -3,15 +3,15 @@
     using nuPickers.EmbeddedResource;
     using Umbraco.Core.PropertyEditors;
 
-    internal class RelationLabelsPreValueEditor : PreValueEditor
+    public class RelationLabelsPreValueEditor
     {
-        [PreValueField("dataSource", "", EmbeddedResource.ROOT_URL + "RelationDataSource/RelationDataSourceConfig.html", HideLabel = true)]
+        [ConfigurationField("dataSource", "", EmbeddedResource.ROOT_URL + "RelationDataSource/RelationDataSourceConfig.html", HideLabel = true)]
         public string DataSource { get; set; }
 
-        [PreValueField("customLabel", "", EmbeddedResource.ROOT_URL + "CustomLabel/CustomLabelConfig.html", HideLabel = true)]
+        [ConfigurationField("customLabel", "", EmbeddedResource.ROOT_URL + "CustomLabel/CustomLabelConfig.html", HideLabel = true)]
         public string CustomLabel { get; set; }
 
-        [PreValueField("layoutDirection", "Layout Direction", EmbeddedResource.ROOT_URL + "LayoutDirection/LayoutDirectionConfig.html")]
+        [ConfigurationField("layoutDirection", "Layout Direction", EmbeddedResource.ROOT_URL + "LayoutDirection/LayoutDirectionConfig.html")]
         public string LayoutDirection { get; set; }
     }
 }

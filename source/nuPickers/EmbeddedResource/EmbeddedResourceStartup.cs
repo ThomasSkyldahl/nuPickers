@@ -1,19 +1,29 @@
-﻿namespace nuPickers.EmbeddedResource
+﻿using Umbraco.Core.Composing;
+using Umbraco.Web;
+
+namespace nuPickers.EmbeddedResource
 {
     using ClientDependency.Core;
     using System.Web.Mvc;
     using System.Web.Routing;
     using Umbraco.Core;
 
-    public class EmbeddedResourceStartup : ApplicationEventHandler
+    [RuntimeLevel(MinLevel = RuntimeLevel.Run)]
+    public class EmbeddedResourceComposer : IComposer
     {
-        protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
+        public void Compose(Composition composition)
         {
-            base.ApplicationStarted(umbracoApplication, applicationContext);
+            composition.Components().Append<EmbeddedResourceComponent>();
+        }
+    }
 
+    public class EmbeddedResourceComponent : IComponent
+    {
+        public void Initialize()
+        {
             RouteTable
-                .Routes
-                .MapRoute(
+               .Routes
+               .MapRoute(
                     name: "nuPickersShared",
                     url:  EmbeddedResource.ROOT_URL.TrimStart("~/") + "{folder}/{file}",
                     defaults: new
@@ -26,9 +36,8 @@
             FileWriters.AddWriterForExtension(EmbeddedResource.FILE_EXTENSION, new EmbeddedResourceVirtualFileWriter());
         }
 
-        protected override bool ExecuteWhenApplicationNotConfigured
+        public void Terminate()
         {
-            get { return true; }
         }
     }
 }

@@ -1,14 +1,22 @@
 ﻿
+using Umbraco.Core.Logging;
+
 namespace nuPickers.PropertyEditors
 {
     using nuPickers.Shared.SaveFormat;
     using Umbraco.Core.PropertyEditors;
 
-    public abstract class BasePropertyEditor : PropertyEditor
+    public abstract class BasePropertyEditor : DataEditor
     {
-        protected override PropertyValueEditor CreateValueEditor()
+        protected BasePropertyEditor(ILogger logger) : base(logger)
+        {
+        }
+
+        protected override IConfigurationEditor  CreateConfigurationEditor()
         {
             return new SaveFormatPropertyValueEditor(base.CreateValueEditor());
         }
+
+
     }
 }
