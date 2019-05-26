@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Umbraco.Core.Logging;
 
 namespace nuPickers.PropertyEditors.DotNetCheckBoxPicker
 {
@@ -23,9 +24,17 @@ namespace nuPickers.PropertyEditors.DotNetCheckBoxPicker
     // CONFIG
     [PropertyEditorAsset(ClientDependencyType.Css, EmbeddedResource.ROOT_URL + "PropertyEditor/PropertyEditorConfig.css" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "DotNetDataSource/DotNetDataSourceConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
+    [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "RelationMapping/RelationMappingConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "CustomLabel/CustomLabelConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "SaveFormat/SaveFormatConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
-    public class DotNetCheckBoxPickerPropertyEditor : ConfigurationEditor<DotNetCheckBoxPickerPreValueEditor>
+    public class DotNetCheckBoxPickerPropertyEditor : BasePropertyEditor<DotNetCheckBoxPickerConfigurationEditor>
+    {
+        public DotNetCheckBoxPickerPropertyEditor(ILogger logger) : base(logger)
+        {
+        }
+    }
+
+    public class DotNetCheckBoxPickerConfigurationEditor : ConfigurationEditor<DotNetCheckBoxPickerPreValueEditor>
     {
     }
 }

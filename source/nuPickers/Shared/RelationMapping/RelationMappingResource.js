@@ -1,5 +1,4 @@
-﻿
-angular.module('umbraco.resources')
+﻿angular.module('umbraco.resources')
     .factory('nuPickers.Shared.RelationMapping.RelationMappingResource',
      ['$http', 'editorState',
         function ($http, editorState) {

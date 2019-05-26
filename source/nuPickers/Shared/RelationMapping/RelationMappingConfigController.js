@@ -1,5 +1,4 @@
-﻿
-angular
+﻿angular
     .module("umbraco")
     .controller("nuPickers.Shared.RelationMapping.RelationMappingConfigController",
     ['$rootScope', '$scope', '$http', function ($rootScope, $scope, $http) {

@@ -1,22 +1,11 @@
 ﻿using Umbraco.Core.Composing;
-using Umbraco.Web;
+using ClientDependency.Core;
+using System.Web.Mvc;
+using System.Web.Routing;
+using Umbraco.Core;
 
 namespace nuPickers.EmbeddedResource
 {
-    using ClientDependency.Core;
-    using System.Web.Mvc;
-    using System.Web.Routing;
-    using Umbraco.Core;
-
-    [RuntimeLevel(MinLevel = RuntimeLevel.Run)]
-    public class EmbeddedResourceComposer : IComposer
-    {
-        public void Compose(Composition composition)
-        {
-            composition.Components().Append<EmbeddedResourceComponent>();
-        }
-    }
-
     public class EmbeddedResourceComponent : IComponent
     {
         public void Initialize()
@@ -29,7 +18,7 @@ namespace nuPickers.EmbeddedResource
                     defaults: new
                     {
                         controller = "EmbeddedResource",
-                        action = "GetSharedResource"
+                        action = nameof(EmbeddedResourceController.GetSharedResource)
                     },
                     namespaces: new[] { "nuPickers.EmbeddedResource" });
 

@@ -247,10 +247,14 @@
     <Compile Include="Caching\Cache.cs" />
     <Compile Include="Caching\CacheConstants.cs" />
     <Compile Include="Caching\CacheInvalidation.cs" />
+    <Compile Include="Composing\DotNetDataSourceCollectionBuilder.cs" />
+    <Compile Include="Composing\LazyDotNetDataSourceCollectionBuilder.cs" />
+    <Compile Include="Composing\DataSourceCompositionExtensions.cs" />
     <Compile Include="EmbeddedResource\EmbeddedResource.cs" />
+    <Compile Include="EmbeddedResource\EmbeddedResourceComposer.cs" />
     <Compile Include="EmbeddedResource\EmbeddedResourceController.cs" />
     <Compile Include="EmbeddedResource\EmbeddedResourceHelper.cs" />
-    <Compile Include="EmbeddedResource\EmbeddedResourceStartup.cs" />
+    <Compile Include="EmbeddedResource\EmbeddedResourceComponent.cs" />
     <Compile Include="EmbeddedResource\EmbeddedResourceVirtualFile.cs" />
     <Compile Include="EmbeddedResource\EmbeddedResourceVirtualFileProvider.cs" />
     <Compile Include="EmbeddedResource\EmbeddedResourceVirtualFileWriter.cs" />
@@ -258,6 +262,7 @@
     <Compile Include="Extensions\IPublishedContentExtensions.cs" />
     <Compile Include="Extensions\UmbracoHelperExtensions.cs" />
     <Compile Include="Helper.cs" />
+    <Compile Include="NuPickerComposer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyEditors\BasePropertyEditor.cs" />
     <Compile Include="PropertyEditors\DotNetCheckBoxPicker\DotNetCheckBoxPickerPreValueEditor.cs" />
@@ -332,7 +337,9 @@
     <Compile Include="Shared\DotNetDataSource\DotNetDataSource.cs" />
     <Compile Include="Shared\DotNetDataSource\DotNetDataSourceApiController.cs" />
     <Compile Include="Shared\DotNetDataSource\DotNetDataSourceAttribute.cs" />
+    <Compile Include="Shared\DotNetDataSource\DotNetDataSourceConfigurationDto.cs" />
     <Compile Include="Shared\DotNetDataSource\DotNetDataSourceProperty.cs" />
+    <Compile Include="Shared\DotNetDataSource\DotNetDataSourcePropertyDto.cs" />
     <Compile Include="Shared\DotNetDataSource\IDotNetDataSource.cs" />
     <Compile Include="Shared\DotNetDataSource\IDotNetDataSourceKeyed.cs" />
     <Compile Include="Shared\DotNetDataSource\IDotNetDataSourcePaged.cs" />

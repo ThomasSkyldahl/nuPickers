@@ -63,7 +63,7 @@ angular
 
             $scope.model.value.properties = null;
             $scope.model.value.properties = $scope.properties.map(function (property) {
-                return { 'name': property.name, 'value': property.value }
+              return { 'name': property.name, 'value': property.value };
             });
 
         });

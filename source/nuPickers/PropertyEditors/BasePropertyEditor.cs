@@ -3,10 +3,9 @@ using Umbraco.Core.Logging;
 
 namespace nuPickers.PropertyEditors
 {
-    using nuPickers.Shared.SaveFormat;
     using Umbraco.Core.PropertyEditors;
 
-    public abstract class BasePropertyEditor : DataEditor
+    public abstract class BasePropertyEditor<TConfiguration> : DataEditor where TConfiguration: IConfigurationEditor, new()
     {
         protected BasePropertyEditor(ILogger logger) : base(logger)
         {
@@ -14,9 +13,7 @@ namespace nuPickers.PropertyEditors
 
         protected override IConfigurationEditor  CreateConfigurationEditor()
         {
-            return new SaveFormatPropertyValueEditor(base.CreateValueEditor());
+            return new TConfiguration();
         }
-
-
     }
 }

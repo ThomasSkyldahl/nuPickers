@@ -1,4 +1,6 @@
-﻿namespace nuPickers.PropertyEditors.DotNetTypeaheadListPicker
+﻿using Umbraco.Core.Logging;
+
+namespace nuPickers.PropertyEditors.DotNetTypeaheadListPicker
 {
     using ClientDependency.Core;
     using nuPickers.EmbeddedResource;
@@ -26,7 +28,14 @@
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "CustomLabel/CustomLabelConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "RelationMapping/RelationMappingConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "SaveFormat/SaveFormatConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
-    public class DotNetTypeaheadPickerPropertyEditor : ConfigurationEditor<DotNetTypeaheadListPickerPreValueEditor>
+    public class DotNetTypeaheadPickerPropertyEditor : BasePropertyEditor<DotNetTypeaheadPickerConfigurationEditor>
+    {
+        public DotNetTypeaheadPickerPropertyEditor(ILogger logger) : base(logger)
+        {
+        }
+    }
+
+    public class DotNetTypeaheadPickerConfigurationEditor : ConfigurationEditor<DotNetTypeaheadListPickerPreValueEditor>
     {
     }
 }

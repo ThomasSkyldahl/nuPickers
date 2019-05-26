@@ -1,4 +1,6 @@
-﻿namespace nuPickers.Shared.DotNetDataSource
+﻿using Umbraco.Core.Composing;
+
+namespace nuPickers.Shared.DotNetDataSource
 {
     //using System;
     //using nuPickers.Shared.Editor;
@@ -7,7 +9,7 @@
     /// <summary>
     /// All classes that implement this interface can be used as a data-source for a nuPickers property-editor
     /// </summary>
-    public interface IDotNetDataSource
+    public interface IDotNetDataSource: IDiscoverable
     {
         /// <summary>
         /// 

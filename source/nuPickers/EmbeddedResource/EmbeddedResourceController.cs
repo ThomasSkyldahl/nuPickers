@@ -1,4 +1,6 @@
-﻿namespace nuPickers.EmbeddedResource
+﻿using Umbraco.Core.Composing;
+
+namespace nuPickers.EmbeddedResource
 {
     using System.Web;
     using System.Web.Mvc;
@@ -7,7 +9,7 @@
     /// <summary>
     /// Handles returning embedded resource files (html, css, js, png)
     /// </summary>
-    public class EmbeddedResourceController : Controller
+    public class EmbeddedResourceController : Controller, IDiscoverable
     {
         public ActionResult GetSharedResource(string folder, string file)
         {
@@ -19,7 +21,7 @@
                 return new FileStreamResult(resourceStream, GetMimeType(fileName)); ;
             }
 
-            return this.HttpNotFound();
+            return HttpNotFound();
         }
 
         private string GetMimeType(string resource)

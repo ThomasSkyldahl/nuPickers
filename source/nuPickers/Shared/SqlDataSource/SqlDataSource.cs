@@ -21,21 +21,23 @@ namespace nuPickers.Shared.SqlDataSource
 
         IEnumerable<EditorDataItem> IDataSource.GetEditorDataItems(int currentId, int parentId, string typeahead)
         {
-            return this.GetEditorDataItems(currentId == 0 ? parentId : currentId, typeahead);
+            return GetEditorDataItems(currentId == 0 ? parentId : currentId, typeahead);
         }
 
         IEnumerable<EditorDataItem> IDataSource.GetEditorDataItems(int currentId, int parentId, string[] keys)
         {
-            return this.GetEditorDataItems(currentId == 0 ? parentId : currentId).Where(x => keys.Contains(x.Key));
+            return GetEditorDataItems(currentId == 0 ? parentId : currentId).Where(x => keys.Contains(x.Key));
         }
 
         IEnumerable<EditorDataItem> IDataSource.GetEditorDataItems(int currentId, int parentId, PageMarker pageMarker, out int total)
         {
             var editorDataItems = this.GetEditorDataItems(currentId == 0 ? parentId : currentId);
 
-            total = editorDataItems.Count();
+            var items = editorDataItems.ToArray();
 
-            return editorDataItems.Skip(pageMarker.Skip).Take(pageMarker.Take);
+            total = items.Length;
+
+            return items.Skip(pageMarker.Skip).Take(pageMarker.Take);
         }
 
         /// <summary>

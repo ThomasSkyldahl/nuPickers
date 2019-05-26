@@ -3,8 +3,8 @@
 angular
     .module("umbraco")
     .controller("nuPickers.Shared.ListPicker.ListPickerEditorController",
-        ['$scope', 'nuPickers.Shared.Editor.EditorResource',
-        function ($scope, editorResource) {
+        ['$scope','$sce', 'nuPickers.Shared.Editor.EditorResource',
+        function ($scope, $sce, editorResource) {
 
             // array of option objects, for the selectable list 
             $scope.selectableOptions = []; // [{"key":"","label":""}...]
@@ -23,6 +23,10 @@ angular
             // returns true is this option has been picked
             $scope.isUsed = function (option) {
                 return $scope.selectedOptions.map(function (option) { return option.key; }).indexOf(option.key) >= 0;
+            };
+
+            $scope.asTrusted = function(value) {
+                return $sce.trustAsHtml(value);
             };
 
             // return true if option can be picked

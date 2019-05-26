@@ -1,4 +1,5 @@
-﻿using Umbraco.Core.Services;
+﻿using Umbraco.Core.Composing;
+using Umbraco.Core.Services;
 
 namespace nuPickers.Shared.RelationMapping
 {
