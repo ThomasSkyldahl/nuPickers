@@ -1,4 +1,6 @@
-﻿namespace nuPickers.PropertyEditors.EnumLabels
+﻿using Umbraco.Core.Logging;
+
+namespace nuPickers.PropertyEditors.EnumLabels
 {
     using ClientDependency.Core;
     using nuPickers.EmbeddedResource;
@@ -22,7 +24,10 @@
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "EnumDataSource/EnumDataSourceConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "Labels/LabelsConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "CustomLabel/CustomLabelConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
-    public class EnumLabelsPropertyEditor : ConfigurationEditor<EnumLabelsPreValueEditor>
+    public class EnumLabelsPropertyEditor : BasePropertyEditor<EnumLabelsConfigurationEditor>
     {
+        public EnumLabelsPropertyEditor(ILogger logger) : base(logger)
+        {
+        }
     }
 }

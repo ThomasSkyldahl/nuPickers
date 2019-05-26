@@ -1,4 +1,6 @@
-﻿namespace nuPickers.PropertyEditors.DotNetLabels
+﻿using Umbraco.Core.Logging;
+
+namespace nuPickers.PropertyEditors.DotNetLabels
 {
     using ClientDependency.Core;
     using nuPickers.EmbeddedResource;
@@ -22,7 +24,10 @@
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "DotNetDataSource/DotNetDataSourceConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "Labels/LabelsConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "CustomLabel/CustomLabelConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
-    public class DotNetLabelsPropertyEditor : ConfigurationEditor<DotNetLabelsPreValueEditor>
+    public class DotNetLabelsPropertyEditor: BasePropertyEditor<DotNetLabelsConfigurationEditor>
     {
+        public DotNetLabelsPropertyEditor(ILogger logger) : base(logger)
+        {
+        }
     }
 }

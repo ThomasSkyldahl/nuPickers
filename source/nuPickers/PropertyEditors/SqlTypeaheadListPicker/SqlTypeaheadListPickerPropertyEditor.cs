@@ -1,4 +1,6 @@
-﻿namespace nuPickers.PropertyEditors.SqlTypeaheadListPicker
+﻿using Umbraco.Core.Logging;
+
+namespace nuPickers.PropertyEditors.SqlTypeaheadListPicker
 {
     using ClientDependency.Core;
     using nuPickers.EmbeddedResource;
@@ -26,7 +28,10 @@
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "CustomLabel/CustomLabelConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "RelationMapping/RelationMappingConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "SaveFormat/SaveFormatConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
-    public class SqlTypeaheadListPickerPropertyEditor : ConfigurationEditor<SqlTypeaheadListPickerPreValueEditor>
+    public class SqlTypeaheadListPickerPropertyEditor : BasePropertyEditor<SqlTypeaheadListPickerConfigurationEditor>
     {
+        public SqlTypeaheadListPickerPropertyEditor(ILogger logger) : base(logger)
+        {
+        }
     }
 }

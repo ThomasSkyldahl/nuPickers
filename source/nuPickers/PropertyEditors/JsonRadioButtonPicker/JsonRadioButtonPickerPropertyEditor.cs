@@ -1,4 +1,6 @@
-﻿namespace nuPickers.PropertyEditors.JsonRadioButtonPicker
+﻿using Umbraco.Core.Logging;
+
+namespace nuPickers.PropertyEditors.JsonRadioButtonPicker
 {
     using ClientDependency.Core;
     using nuPickers.EmbeddedResource;
@@ -23,7 +25,10 @@
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "CustomLabel/CustomLabelConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "RelationMapping/RelationMappingConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "SaveFormat/SaveFormatConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
-    public class JsonRadioButtonPickerPropertyEditor : ConfigurationEditor<JsonRadioButtonPickerPreValueEditor>
+    public class JsonRadioButtonPickerPropertyEditor : BasePropertyEditor<JsonRadioButtonPickerConfigurationEditor>
     {
+        public JsonRadioButtonPickerPropertyEditor(ILogger logger) : base(logger)
+        {
+        }
     }
 }

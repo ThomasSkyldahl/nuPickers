@@ -34,8 +34,4 @@ namespace nuPickers.PropertyEditors.DotNetTypeaheadListPicker
         {
         }
     }
-
-    public class DotNetTypeaheadPickerConfigurationEditor : ConfigurationEditor<DotNetTypeaheadListPickerPreValueEditor>
-    {
-    }
 }

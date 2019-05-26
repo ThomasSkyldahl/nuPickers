@@ -1,4 +1,6 @@
-﻿namespace nuPickers.PropertyEditors.SqlDropDownPicker
+﻿using Umbraco.Core.Logging;
+
+namespace nuPickers.PropertyEditors.SqlDropDownPicker
 {
     using ClientDependency.Core;
     using nuPickers.EmbeddedResource;
@@ -21,7 +23,10 @@
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "SqlDataSource/SqlDataSourceConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "RelationMapping/RelationMappingConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "SaveFormat/SaveFormatConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
-    public class SqlDropDownPickerPropertyEditor : ConfigurationEditor<SqlDropDownPickerPreValueEditor>
+    public class SqlDropDownPickerPropertyEditor : BasePropertyEditor<SqlDropDownPickerConfigurationEditor>
     {
+        public SqlDropDownPickerPropertyEditor(ILogger logger) : base(logger)
+        {
+        }
     }
 }

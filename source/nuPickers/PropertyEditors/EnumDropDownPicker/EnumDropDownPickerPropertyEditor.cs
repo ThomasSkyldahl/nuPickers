@@ -1,4 +1,6 @@
-﻿namespace nuPickers.PropertyEditors.EnumDropDownPicker
+﻿using Umbraco.Core.Logging;
+
+namespace nuPickers.PropertyEditors.EnumDropDownPicker
 {
     using ClientDependency.Core;
     using nuPickers.EmbeddedResource;
@@ -20,7 +22,10 @@
     [PropertyEditorAsset(ClientDependencyType.Css, EmbeddedResource.ROOT_URL + "PropertyEditor/PropertyEditorConfig.css" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "EnumDataSource/EnumDataSourceConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "SaveFormat/SaveFormatConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
-    public class EnumDropDownPickerPropertyEditor : ConfigurationEditor<EnumDropDownPickerPreValueEditor>
+    public class EnumDropDownPickerPropertyEditor : BasePropertyEditor<EnumDropDownPickerConfigurationEditor>
     {
+        public EnumDropDownPickerPropertyEditor(ILogger logger) : base(logger)
+        {
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace nuPickers.PropertyEditors.EnumCheckBoxPicker
+﻿using Umbraco.Core.Logging;
+
+namespace nuPickers.PropertyEditors.EnumCheckBoxPicker
 {
     using ClientDependency.Core;
     using nuPickers.EmbeddedResource;
@@ -23,7 +25,10 @@
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "EnumDataSource/EnumDataSourceConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "CustomLabel/CustomLabelConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "SaveFormat/SaveFormatConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
-    public class EnumCheckBoxPickerPropertyEditor : ConfigurationEditor<EnumCheckBoxPickerPreValueEditor>
+    public class EnumCheckBoxPickerPropertyEditor : BasePropertyEditor<EnumCheckBoxPickerConfigurationEditor>
     {
+        public EnumCheckBoxPickerPropertyEditor(ILogger logger) : base(logger)
+        {
+        }
     }
 }

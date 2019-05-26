@@ -1,4 +1,6 @@
-﻿namespace nuPickers.PropertyEditors.SqlLabels
+﻿using Umbraco.Core.Logging;
+
+namespace nuPickers.PropertyEditors.SqlLabels
 {
     using ClientDependency.Core;
     using nuPickers.EmbeddedResource;
@@ -22,7 +24,10 @@
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "SqlDataSource/SqlDataSourceConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "Labels/LabelsConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "CustomLabel/CustomLabelConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
-    public class SqlLabelsPropertyEditor : ConfigurationEditor<SqlLabelsPreValueEditor>
+    public class SqlLabelsPropertyEditor : BasePropertyEditor<SqlLabelsConfigurationEditor>
     {
+        public SqlLabelsPropertyEditor(ILogger logger) : base(logger)
+        {
+        }
     }
 }

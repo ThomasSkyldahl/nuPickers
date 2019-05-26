@@ -1,4 +1,6 @@
-﻿namespace nuPickers.PropertyEditors.JsonPrefetchListPicker
+﻿using Umbraco.Core.Logging;
+
+namespace nuPickers.PropertyEditors.JsonPrefetchListPicker
 {
     using ClientDependency.Core;
     using nuPickers.EmbeddedResource;
@@ -25,7 +27,10 @@
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "CustomLabel/CustomLabelConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "RelationMapping/RelationMappingConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "SaveFormat/SaveFormatConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
-    public class JsonPrefetchListPickerPropertyEditor : ConfigurationEditor<JsonPrefetchListPickerPreValueEditor>
+    public class JsonPrefetchListPickerPropertyEditor : BasePropertyEditor<JsonPrefetchListPickerConfigurationEditor>
     {
+        public JsonPrefetchListPickerPropertyEditor(ILogger logger) : base(logger)
+        {
+        }
     }
 }

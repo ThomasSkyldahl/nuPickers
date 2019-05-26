@@ -1,4 +1,6 @@
-﻿namespace nuPickers.PropertyEditors.DotNetDropDownPicker
+﻿using Umbraco.Core.Logging;
+
+namespace nuPickers.PropertyEditors.DotNetDropDownPicker
 {
     using ClientDependency.Core;
     using nuPickers.EmbeddedResource;
@@ -21,7 +23,10 @@
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "DotNetDataSource/DotNetDataSourceConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "RelationMapping/RelationMappingConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "SaveFormat/SaveFormatConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
-    public class DotNetDropDownPickerPropertyEditor : ConfigurationEditor<DotNetDropDownPickerPreValueEditor>
+    public class DotNetDropDownPickerPropertyEditor : BasePropertyEditor<DotNetDropDownPickerConfigurationEditor>
     {
+        public DotNetDropDownPickerPropertyEditor(ILogger logger) : base(logger)
+        {
+        }
     }
 }

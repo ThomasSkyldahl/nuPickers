@@ -1,4 +1,6 @@
-﻿namespace nuPickers.PropertyEditors.SqlCheckBoxPicker
+﻿using Umbraco.Core.Logging;
+
+namespace nuPickers.PropertyEditors.SqlCheckBoxPicker
 {
     using ClientDependency.Core;
     using nuPickers.EmbeddedResource;
@@ -24,7 +26,10 @@
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "CustomLabel/CustomLabelConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "RelationMapping/RelationMappingConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "SaveFormat/SaveFormatConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
-    public class SqlCheckBoxPickerPropertyEditor : ConfigurationEditor<SqlCheckBoxPickerPreValueEditor>
+    public class SqlCheckBoxPickerPropertyEditor : BasePropertyEditor<SqlCheckBoxPickerConfigurationEditor>
     {
+        public SqlCheckBoxPickerPropertyEditor(ILogger logger) : base(logger)
+        {
+        }
     }
 }

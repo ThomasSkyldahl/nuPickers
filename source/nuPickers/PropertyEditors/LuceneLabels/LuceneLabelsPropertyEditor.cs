@@ -1,4 +1,6 @@
-﻿namespace nuPickers.PropertyEditors.LuceneLabels
+﻿using Umbraco.Core.Logging;
+
+namespace nuPickers.PropertyEditors.LuceneLabels
 {
     using ClientDependency.Core;
     using nuPickers.EmbeddedResource;
@@ -22,7 +24,10 @@
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "LuceneDataSource/LuceneDataSourceConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "Labels/LabelsConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "CustomLabel/CustomLabelConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
-    public class LuceneLabelsPropertyEditor : ConfigurationEditor<LuceneLabelsPreValueEditor>
+    public class LuceneLabelsPropertyEditor : BasePropertyEditor<LuceneLabelsConfigurationEditor>
     {
+        public LuceneLabelsPropertyEditor(ILogger logger) : base(logger)
+        {
+        }
     }
 }

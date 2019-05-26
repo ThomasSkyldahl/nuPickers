@@ -1,4 +1,6 @@
-﻿namespace nuPickers.PropertyEditors.EnumPrefetchListPicker
+﻿using Umbraco.Core.Logging;
+
+namespace nuPickers.PropertyEditors.EnumPrefetchListPicker
 {
     using ClientDependency.Core;
     using nuPickers.EmbeddedResource;
@@ -24,7 +26,10 @@
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "EnumDataSource/EnumDataSourceConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "CustomLabel/CustomLabelConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "SaveFormat/SaveFormatConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
-    public class EnumPrefetchListPropertyEditor : ConfigurationEditor<EnumPrefetchListPickerPreValueEditor>
+    public class EnumPrefetchListPropertyEditor : BasePropertyEditor<EnumPrefetchListPickerConfigurationEditor>
     {
+        public EnumPrefetchListPropertyEditor(ILogger logger) : base(logger)
+        {
+        }
     }
 }

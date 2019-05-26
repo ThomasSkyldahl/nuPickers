@@ -1,4 +1,6 @@
-﻿namespace nuPickers.PropertyEditors.SqlPrefetchListPicker
+﻿using Umbraco.Core.Logging;
+
+namespace nuPickers.PropertyEditors.SqlPrefetchListPicker
 {
     using ClientDependency.Core;
     using nuPickers.EmbeddedResource;
@@ -25,7 +27,10 @@
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "CustomLabel/CustomLabelConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "RelationMapping/RelationMappingConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "SaveFormat/SaveFormatConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
-    public class SqlPrefetchListPickerPropertyEditor : ConfigurationEditor<SqlPrefetchListPickerPreValueEditor>
+    public class SqlPrefetchListPickerPropertyEditor : BasePropertyEditor<SqlPrefetchListPickerConfigurationEditor>
     {
+        public SqlPrefetchListPickerPropertyEditor(ILogger logger) : base(logger)
+        {
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace nuPickers.PropertyEditors.LucenePrefetchListPicker
+﻿using Umbraco.Core.Logging;
+
+namespace nuPickers.PropertyEditors.LucenePrefetchListPicker
 {
     using ClientDependency.Core;
     using nuPickers.EmbeddedResource;
@@ -25,7 +27,10 @@
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "CustomLabel/CustomLabelConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "RelationMapping/RelationMappingConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "SaveFormat/SaveFormatConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
-    public class LucenePrefetchListPickerPropertyEditor : ConfigurationEditor<LucenePrefetchListPickerPreValueEditor>
+    public class LucenePrefetchListPickerPropertyEditor : BasePropertyEditor<LucenePrefetchListPickerConfigurationEditor>
     {
+        public LucenePrefetchListPickerPropertyEditor(ILogger logger) : base(logger)
+        {
+        }
     }
 }

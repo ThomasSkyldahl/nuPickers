@@ -1,4 +1,6 @@
-﻿namespace nuPickers.PropertyEditors.LuceneDropDownPicker
+﻿using Umbraco.Core.Logging;
+
+namespace nuPickers.PropertyEditors.LuceneDropDownPicker
 {
     using ClientDependency.Core;
     using nuPickers.EmbeddedResource;
@@ -21,8 +23,10 @@
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "LuceneDataSource/LuceneDataSourceConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "RelationMapping/RelationMappingConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "SaveFormat/SaveFormatConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
-    public class LuceneDropDownPickerPropertyEditor : ConfigurationEditor<LuceneDropDownPickerPreValueEditor>
+    public class LuceneDropDownPickerPropertyEditor : BasePropertyEditor<LuceneDropDownPickerConfigurationEditor>
     {
+        public LuceneDropDownPickerPropertyEditor(ILogger logger) : base(logger)
+        {
+        }
     }
-
 }

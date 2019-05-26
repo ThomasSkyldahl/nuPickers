@@ -1,4 +1,6 @@
-﻿namespace nuPickers.PropertyEditors.JsonLabels
+﻿using Umbraco.Core.Logging;
+
+namespace nuPickers.PropertyEditors.JsonLabels
 {
     using ClientDependency.Core;
     using nuPickers.EmbeddedResource;
@@ -22,7 +24,10 @@
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "JsonDataSource/JsonDataSourceConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "Labels/LabelsConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "CustomLabel/CustomLabelConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
-    public class JsonLabelsPropertyEditor : ConfigurationEditor<JsonLabelsPreValueEditor>
+    public class JsonLabelsPropertyEditor : BasePropertyEditor<JsonLabelsConfigurationEditor>
     {
+        public JsonLabelsPropertyEditor(ILogger logger) : base(logger)
+        {
+        }
     }
 }

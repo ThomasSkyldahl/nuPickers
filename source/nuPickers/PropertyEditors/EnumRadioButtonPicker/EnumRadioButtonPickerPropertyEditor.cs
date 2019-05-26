@@ -1,4 +1,6 @@
-﻿namespace nuPickers.PropertyEditors.EnumRadioButtonPicker
+﻿using Umbraco.Core.Logging;
+
+namespace nuPickers.PropertyEditors.EnumRadioButtonPicker
 {
     using ClientDependency.Core;
     using nuPickers.EmbeddedResource;
@@ -22,7 +24,10 @@
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "EnumDataSource/EnumDataSourceConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "CustomLabel/CustomLabelConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
     [PropertyEditorAsset(ClientDependencyType.Javascript, EmbeddedResource.ROOT_URL + "SaveFormat/SaveFormatConfigController.js" + EmbeddedResource.FILE_EXTENSION)]
-    public class EnumRadioButtonPickerPropertyEditor : ConfigurationEditor<EnumRadioButtonPickerPreValueEditor>
+    public class EnumRadioButtonPickerPropertyEditor : BasePropertyEditor<EnumRadioButtonPickerConfigurationEditor>
     {
+        public EnumRadioButtonPickerPropertyEditor(ILogger logger) : base(logger)
+        {
+        }
     }
 }
